@@ -10,7 +10,7 @@ nAttributes=size(attributes,2);
 players = {zeros(nPlayers,2),zeros(nPlayers,2),zeros(nPlayers,nAttributes)};
 playerOriginalPosition=zeros(nPlayers,2);
 
-% Starting Positions team 0 below
+% Starting Positions team red 0 below
 
 playersLongSide=length(formation1);
 xPositions=linspace(-fieldLength/2,0,playersLongSide+2);
@@ -20,14 +20,14 @@ for i=1:playersLongSide
     yPositions=linspace(-fieldWidth/2,fieldWidth/2,playersShortSide+2);
     for j=1:playersShortSide
         players{1}(counter,1)=xPositions(i+1);
-        players{1}(counter,2)=yPositions(j+1);%+epsillon; %y-position
+        players{1}(counter,2)=yPositions(j+1);
         counter=counter+1;
     end
 end
 players{1}(nPlayers/2,:)=[-42 0]; %the goalie
 playerOriginalPosition(1:nPlayers/2,1)=fieldLength/2-2*abs(players{1}(1:nPlayers/2,1));
 playerOriginalPosition(1:nPlayers/2,2)=players{1}(1:nPlayers/2,2);
-% team 1 starting positions below
+% team blue 1 starting positions below
 
 playersLongSide=length(formation2);
 xPositions=linspace(fieldLength/2,0,playersLongSide+2);
@@ -37,7 +37,7 @@ for i=1:playersLongSide
     yPositions=linspace(-fieldWidth/2,fieldWidth/2,playersShortSide+2);
     for j=1:playersShortSide
         players{1}(counter,1)=xPositions(i+1);
-        players{1}(counter,2)=yPositions(j+1);%+epsillon; %y-position
+        players{1}(counter,2)=yPositions(j+1);
         counter=counter+1;
     end
 end

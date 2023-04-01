@@ -5,8 +5,7 @@ function [updatedPlayer] = Attack(players, indexOfPlayer, ball, timeDelta)
 nPlayers=length(players{1});
 playerTeam=players{3}(indexOfPlayer);
 fieldWidth=90;
-actionPlayerDistance = 15; % 12-15 seems good
-
+actionPlayerDistance = 15; 
 
 
 playerPosition = players{1}(indexOfPlayer,:);

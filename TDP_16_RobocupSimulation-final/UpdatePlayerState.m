@@ -14,6 +14,7 @@ passBallSigma = 1/200;                                                          
 kickBallAcceleration = 0.5;                                                     % A constant used in the KickBall function, which represents the acceleration of the ball after being kicked.
 passBallAcceleration = 0.5;                                                     % A constant used in the PassBall function, which represents the acceleration of the ball after being passed.
 shootBallCoefficient = 5;                                                       % A constant used in the KickBall function, which determines the strength of the kick towards the goal. Renamed as "kickBallCoefficient" in KickBall function.
+kickBallCoefficient = 5;                                                       % A constant used in the KickBall function, which determines the strength of the kick towards the goal. Renamed as "kickBallCoefficient" in KickBall function.
 passBallCoefficient = 0.2;                                                      % A constant used in the PassBall function, which determines the strength of the pass towards the target player.
 moveForwardCoefficient = 0.5;                                                   % A constant used in the Move function, which determines how much a player moves forward when they have the ball.
 kickBallProbabilityCoefficient = 24;                                            % A constant used in the calculation of the likelihood of kicking the ball towards the goal.
@@ -78,14 +79,14 @@ if distanceToBall < actionBallDistance
     if  whatTodo <= kickLikeRange || distanceToGoal < actionGoalDistance  % If the random number falls within the range of kicking or the player is close to the goal
         % Kick the ball towards the goal if the random number generated is less than or equal to the kick likelihood range, or if the distance to the goal is less than the action goal distance
         targetPosition = goalPosition;  % Set the target position as the goal
-        ball = BallKicking(ball, kickBallSigma, shootBallCoefficient, kickBallAcceleration, targetPosition, timeDelta);  % Kick the ball
+        ball = BallKicking(ball, kickBallSigma, shootBallCoefficient, targetPosition, timeDelta);  % Kick the ball
     elseif (whatTodo > kickLikeRange) && (whatTodo <= passLikeRange) && MarkedPlayers(players,indexOfPlayer,players{3}(indexOfPlayer),markedDistance) || mod(indexOfPlayer,nPlayers/2)==0 % If the player is marked or is the goalie
         % Pass the ball to a teammate if the player is marked by an opponent player within the marked distance, or if the player is the goalkeeper
         targetPosition = LookForTeammates(players,indexOfPlayer,markedDistance);  % Look for another teammate to pass the ball to
         ball = BallPassing(ball, passBallSigma, passBallCoefficient, passBallAcceleration, targetPosition, timeDelta);  % Pass the ball
     else % If the player is not marked and can go forward with the ball
         targetPosition = [goalPosition(1)+sign(players{3}(indexOfPlayer)-1/2) players{1}(indexOfPlayer,2)];  % Set the target position as forward of the player
-        ball = BallKicking(ball, kickBallSigma, moveForwardCoefficient, kickBallAcceleration, targetPosition, timeDelta);  % Kick the ball forward
+        ball = BallKicking(ball, kickBallSigma, moveForwardCoefficient, targetPosition, timeDelta);  % Kick the ball forward
     end
 end
 
