@@ -23,6 +23,8 @@
 
 05/04/2023 updated plotTheplayers.m, plotTheBall.m, PlayerInitialPosition.m, and PlayerMovement.m. (By Yue)
 
-05/04/2023 solved shacking problem. (By Yue)
+05/04/2023 solved shaking problem. (By Yue)
 
 06/04/2023 Set each player's movement individually, complete with score-based strategies. (By Yue)
+
+06/04/2023 Adjusted the UpdatePlayerState function to contain (Kicking, Passing, Marking, and Looking for teammates) all in one function. Adjusted UpdatePlayerState to have a smarter decision making based on calculated thresholds and distances. Adjusted the goal parameters in UpdatePlayerState to have a more dynamic kicks towards the goal. Adjusted FieldBorders to contain corner kicks coniditon without bugging out and counting as an out. Adjusted the global variable in FieldBorders and UpdatePlayerState to work more accuretly.
