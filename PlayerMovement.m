@@ -18,7 +18,7 @@ distanceToBallForAllTeamMates = vecnorm((ballPosition-playerPositions)');
 distanceToOriginalPosition = norm(playerOriginalPosition(indexOfPlayer,:)-playerPosition);
 
 if goalsTeam0==goalsTeam1 % tied 
-    % goalie
+    % GoalKeeper
     if indexOfPlayer==nPlayers/2 || indexOfPlayer==nPlayers 
         if (distanceToBall < 1.0*actionPlayerDistance && 1.0*distanceToOriginalPosition < actionPlayerDistance)...
                 || indexOfPlayer==(indexOfPlayerThatWillGoForTheBall+playerTeam*nPlayers/2)
@@ -66,7 +66,7 @@ if goalsTeam0==goalsTeam1 % tied
 
 % blue team leads red team
 elseif goalsTeam0>goalsTeam1
-    % goalie
+    %  GoalKeeper
     if indexOfPlayer==nPlayers/2 || indexOfPlayer==nPlayers 
         if (distanceToBall < 1.0*actionPlayerDistance && 1.0*distanceToOriginalPosition < actionPlayerDistance)...
                 || indexOfPlayer==(indexOfPlayerThatWillGoForTheBall+playerTeam*nPlayers/2)
@@ -148,6 +148,7 @@ elseif goalsTeam0>goalsTeam1
         end    
     end
 % red team leads blue team
+%  GoalKeeper
 else 
     if indexOfPlayer==nPlayers/2 || indexOfPlayer==nPlayers % goalie
         if (distanceToBall < 1.0*actionPlayerDistance && 1.0*distanceToOriginalPosition < actionPlayerDistance)...
