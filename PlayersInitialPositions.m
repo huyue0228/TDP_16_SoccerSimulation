@@ -11,7 +11,7 @@ if goalsTeam0==goalsTeam1 % Red team tied with blue team
     players{1}(1,:)=[10 -12];
     players{1}(2,:)=[10 12];
     players{1}(3,:)=[-25 0];
-    players{1}(4,:)=[-42 0]; %the goalie
+    players{1}(4,:)=[-42 0]; %the  GoalKeeper
     
     playerOriginalPosition(1:nPlayers/2,1)=players{1}(1:nPlayers/2,1);
     playerOriginalPosition(1:nPlayers/2,2)=players{1}(1:nPlayers/2,2);
@@ -20,7 +20,7 @@ if goalsTeam0==goalsTeam1 % Red team tied with blue team
     players{1}(5,:)=[-10 12];
     players{1}(6,:)=[-10 -12];
     players{1}(7,:)=[25 0];
-    players{1}(8,:)=[42 0]; %the goalie
+    players{1}(8,:)=[42 0]; %the  GoalKeeper
     
     playerOriginalPosition(nPlayers/2+1:nPlayers,1)=players{1}(nPlayers/2+1:nPlayers,1);
     playerOriginalPosition(nPlayers/2+1:nPlayers,2)=players{1}(nPlayers/2+1:nPlayers,2);
@@ -29,7 +29,7 @@ elseif goalsTeam0>goalsTeam1 % Red team leads blue team
     players{1}(1,:)=[-12 0];
     players{1}(2,:)=[-25 12];
     players{1}(3,:)=[-25 -12];
-    players{1}(4,:)=[-42 0]; %the goalie
+    players{1}(4,:)=[-42 0]; %the GoalKeeper
     
     playerOriginalPosition(1:nPlayers/2,1)=players{1}(1:nPlayers/2,1);
     playerOriginalPosition(1:nPlayers/2,2)=players{1}(1:nPlayers/2,2);
@@ -38,7 +38,7 @@ elseif goalsTeam0>goalsTeam1 % Red team leads blue team
     players{1}(5,:)=[-10 12];
     players{1}(6,:)=[-10 -12];
     players{1}(7,:)=[25 0];
-    players{1}(8,:)=[42 0]; %the goalie
+    players{1}(8,:)=[42 0]; %the  GoalKeeper
     
     playerOriginalPosition(nPlayers/2+1:nPlayers,1)=players{1}(nPlayers/2+1:nPlayers,1);
     playerOriginalPosition(nPlayers/2+1:nPlayers,2)=players{1}(nPlayers/2+1:nPlayers,2);
@@ -47,7 +47,7 @@ else % Blue team leads red team
     players{1}(1,:)=[10 -12];
     players{1}(2,:)=[10 12];
     players{1}(3,:)=[-25 0];
-    players{1}(4,:)=[-42 0]; %the goalie
+    players{1}(4,:)=[-42 0]; %the  GoalKeeper
     
     playerOriginalPosition(1:nPlayers/2,1)=players{1}(1:nPlayers/2,1);
     playerOriginalPosition(1:nPlayers/2,2)=players{1}(1:nPlayers/2,2);
@@ -56,7 +56,7 @@ else % Blue team leads red team
     players{1}(5,:)=[12 0];
     players{1}(6,:)=[25 12];
     players{1}(7,:)=[25 -12];
-    players{1}(8,:)=[42 0]; %the goalie
+    players{1}(8,:)=[42 0]; %the  GoalKeeper
     
     playerOriginalPosition(nPlayers/2+1:nPlayers,1)=players{1}(nPlayers/2+1:nPlayers,1);
     playerOriginalPosition(nPlayers/2+1:nPlayers,2)=players{1}(nPlayers/2+1:nPlayers,2);
