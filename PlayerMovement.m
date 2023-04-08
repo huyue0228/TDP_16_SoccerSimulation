@@ -1,4 +1,4 @@
-function [updatedPlayer] = PlayerMovement(players, indexOfPlayer, ball, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1,strikerCoefficient,defenderCoefficient)
+function [updatedPlayer] = PlayerMovement(players, indexOfPlayer, ball, timeDelta, playerOriginalPosition, strikerCoefficient,defenderCoefficient)
 % Red team tied with blue team
 
 nPlayers=length(players{1});

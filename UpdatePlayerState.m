@@ -258,6 +258,6 @@ if distanceToBall < actionBallDistance
 end
 
 updatedBall = ball; % Set updated ball to the current ball state
-updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
+updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerOriginalPosition,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
 
 end
