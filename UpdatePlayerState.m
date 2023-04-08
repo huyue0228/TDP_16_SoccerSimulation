@@ -5,7 +5,8 @@ function [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOf
 
 % Declares a global variable that keeps track of the last team that had possession of the ball.
 global lastTeamBallPossession;
-
+global leadingTeam
+global fallBehindTeam
 % Defines various constants and coefficients that are used in the function.
 nPlayers=length(players{1});                                                    % The total number of players on the field.
 kickBallSigma = 1/200;                                                          % A constant which represents the standard deviation of the noise added to the kick direction.
@@ -18,7 +19,8 @@ actionBallDistance = 4;                                                         
 actionPlayerDistance = 15;                                                      % The distance within which a player can receive a pass.
 actionGoalDistance = 10;                                                        % The distance within which a player is close enough to the goal to consider shooting towards it.
 markedDistance = actionPlayerDistance * 0.7;                                    % The distance within which a player is considered marked by an opponent player. % Between 10-15 seems optimal. % 70% of actionPlayerDistance = 15 * 0.7 = 10.5. 
-
+strikerCoefficient=1;
+defenderCoefficient=1;
 % Sets the goalPosition based on the player's team.
 % If the player's team is 0 (Red Team), the goal is on the positive x-axis.
 % If the player's team is 1 (Blue Team), the goal is on the negative x-axis.
@@ -26,6 +28,25 @@ if players{3}(indexOfPlayer)==0
     goalPosition = [+60 randi([-13 13], 1)];
 else
     goalPosition = [-60 randi([-13 13], 1)];
+end
+
+if goalsTeam0 > goalsTeam1
+%      updatedPlayer = Attack(players, indexOfPlayer, updatedBall, timeDelta);
+   leadingTeam=0;
+   fallBehindTeam=1;
+elseif goalsTeam0 < goalsTeam1
+   leadingTeam=1;
+   fallBehindTeam=0;
+else
+   leadingTeam=NaN;
+   fallBehindTeam=NaN;
+end
+
+if players{3}(indexOfPlayer)==leadingTeam
+    
+    defenderCoefficient=1.5;
+elseif players{3}(indexOfPlayer)==fallBehindTeam
+    strikerCoefficient=2;
 end
 
 % Gets the player's position, the ball's position, and the distances between the player and the ball, and the player and the goal.
@@ -237,6 +258,6 @@ if distanceToBall < actionBallDistance
 end
 
 updatedBall = ball; % Set updated ball to the current ball state
-updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1); % Update player state by moving to new position
+updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
 
 end
