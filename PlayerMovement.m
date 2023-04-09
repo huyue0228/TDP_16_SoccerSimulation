@@ -42,7 +42,7 @@ elseif indexOfPlayer==1 || indexOfPlayer==5
     end
 % striker2
 elseif indexOfPlayer==2 || indexOfPlayer==6 
-    if (distanceToBall < 1.0*strikerCoefficient*actionPlayerDistance && distanceToOriginalPosition < 1.0*strikerCoefficient*actionPlayerDistance)...
+    if (distanceToBall < 2.0*strikerCoefficient*actionPlayerDistance && distanceToOriginalPosition < 2.0*strikerCoefficient*actionPlayerDistance)...
             || indexOfPlayer==(indexOfPlayerThatWillGoForTheBall+playerTeam*nPlayers/2)
         playerDirection = atan2(ballPosition(2) - playerPosition(2),ballPosition(1) - playerPosition(1));
     elseif distanceToOriginalPosition <= error
