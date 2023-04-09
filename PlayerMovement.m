@@ -5,7 +5,7 @@ nPlayers=length(players{1});
 playerTeam=players{3}(indexOfPlayer);
 actionPlayerDistance = 15; % 12-15 seems good
 a = 1; % coefficient about position
-error = 1; % set an error to limit shacking
+error = 1; % set an error to limit shaking
 
 playerPosition = players{1}(indexOfPlayer,:);
 playerVelocity = players{2}(indexOfPlayer,:);
@@ -75,4 +75,3 @@ player{3} = players{3}(indexOfPlayer,:);
 updatedPlayer = player;
 
 end
-

@@ -6,10 +6,10 @@ nAttributes=size(attributes,2);
 players = {zeros(nPlayers,2),zeros(nPlayers,2),zeros(nPlayers,nAttributes)};
 playerOriginalPosition=zeros(nPlayers,2);
 
-if goalsTeam0==goalsTeam1 % Red team tied with blue team
+if goalsTeam0==goalsTeam1 % Red team tied with blue teama
     % Starting Positions team red 0 below
-    players{1}(1,:)=[-10 -12];
-    players{1}(2,:)=[-10 12];
+    players{1}(1,:)=[10 -12];
+    players{1}(2,:)=[10 12];
     players{1}(3,:)=[-25 0];
     players{1}(4,:)=[-42 0]; %the  GoalKeeper
     
@@ -17,8 +17,8 @@ if goalsTeam0==goalsTeam1 % Red team tied with blue team
     playerOriginalPosition(1:nPlayers/2,2)=players{1}(1:nPlayers/2,2);
     
     % Starting Position team blue 1 below
-    players{1}(5,:)=[10 12];
-    players{1}(6,:)=[10 -12];
+    players{1}(5,:)=[-10 12];
+    players{1}(6,:)=[-10 -12];
     players{1}(7,:)=[25 0];
     players{1}(8,:)=[42 0]; %the  GoalKeeper
     
@@ -77,4 +77,3 @@ players{3}=attributes;
         
 
 end
-

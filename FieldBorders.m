@@ -1,7 +1,7 @@
 function [ball, players, goal] = FieldBorders(ball, players)
 
     nPlayers=length(players{1});
-    global lastTeamBallPossession;
+    global lastTeamBallPossession; global targetedKicksRed; global targetedKicksBlue;
 
     % Clamp the ball's position to the field limits
     ball(1,1) = max(min(ball(1,1), 46), -46);
@@ -24,6 +24,7 @@ function [ball, players, goal] = FieldBorders(ball, players)
                     disp(MSG)
                     txt = {[sprintf(MSG)]};
                     text(0,-36,txt,'HorizontalAlignment','center')
+                    targetedKicksRed = targetedKicksRed + 1;
                 else
                     MSG = commentators{randi(length(commentators))}+"Oh man, "+string(ownGoalMsgs{randi(length(ownGoalMsgs))})+" by Blue team!"; % Blue Team accidentally scored a goal on themselves
                     disp(MSG)
@@ -36,6 +37,7 @@ function [ball, players, goal] = FieldBorders(ball, players)
                     disp(MSG)
                     txt = {[sprintf(MSG)]};                   
                     text(0,-36,txt,'HorizontalAlignment','center')
+                    targetedKicksBlue = targetedKicksBlue + 1;
                 else
                     MSG = commentators{randi(length(commentators))}+"Oh man, "+string(ownGoalMsgs{randi(length(ownGoalMsgs))})+" by Red team!"; % Red Team accidentally scored a goal on themselves
                     disp(MSG)
@@ -53,7 +55,8 @@ function [ball, players, goal] = FieldBorders(ball, players)
                 disp(MSG)
                 txt = {[sprintf(MSG)]};            
                 text(0,-36,txt,'HorizontalAlignment','center')
-                %global lastTeamBallPossession;
+                targetedKicksRed = targetedKicksRed + 1;
+                targetedKicksBlue = targetedKicksBlue + 1;
                 otherTeam = -sign(lastTeamBallPossession - 1);
                 teamIndex = find(players{3}(:,1) == otherTeam);
                 distanceToBall = vecnorm(players{1}(teamIndex,:) - ball(1,:), 2, 2);
@@ -102,7 +105,6 @@ function [ball, players, goal] = FieldBorders(ball, players)
                 disp(MSG)
                 txt = {[sprintf(MSG)]};            
                 text(0,-36,txt,'HorizontalAlignment','center')
-                %global lastTeamBallPossession;
                 otherTeam = -sign(lastTeamBallPossession - 1);
                 teamIndex = find(players{3}(:,1) == otherTeam);
                 distanceToBall = vecnorm(players{1}(teamIndex,:) - ball(1,:), 2, 2);

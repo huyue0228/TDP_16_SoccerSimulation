@@ -1,8 +1,7 @@
 function [] = PlotThePlayers(players)
-pos = players{1};
 
-%Players size
-radie = 1.5;
+pos = players{1};
+radie = 1.5; % Players size
 
 hold on
 team = players{3};
@@ -20,7 +19,6 @@ for i = 1:length(team1)
     x_center = plotpos(1) + plotpos(3)/2;
     y_center = plotpos(2) + plotpos(4)/2;
     text(x_center, y_center, num2str(i), 'FontSize', 8, 'HorizontalAlignment', 'center','Color', 'k','FontWeight', 'bold' )
-    %text(x_center, y_center, '1', 'FontSize', 7, 'HorizontalAlignment', 'center','Color' ,'w', 'FontWeight','normal')
 end
 for i = 1:length(team2)
     plotpos = [pos(team2(i),1)-radie pos(team2(i),2)-radie 2*radie 2*radie];
@@ -34,4 +32,5 @@ for i = 1:length(team2)
     text(x_center, y_center, num2str(i), 'FontSize', 8, 'HorizontalAlignment', 'center','Color', 'k','FontWeight', 'bold' )
     hold on
 end
+
 end

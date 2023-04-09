@@ -1,7 +1,6 @@
 function [updatedPlayers, updatedBall] = UpdatePlayersAndBall(players, ball, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1)
 % This function updates the state of all the players and the ball
 
-acceleration = 0.1; % set the acceleration of the ball
 particleRadius = 2; % set the radius of the particle
 nAttributes = size(players{3},2); % get the number of attributes of each player
 nPlayers = size(players{1},1); % get the number of players
@@ -15,7 +14,13 @@ for indexOfPlayer = 1:nPlayers % iterate over each player
     ball=updatedBall; % update the state of the ball
 end
 
-updatedBall = UpdateTheBallPosition(ball, timeDelta, acceleration); % update the position of the ball based on its current state and acceleration
+% update the position of the ball based on its current state and velocity
+frictionCoefficient=0.75; %less than 1
+
+updatedBall(1,1)=ball(1,1)+ball(2,1)*timeDelta;     % Update the x axis position of the ball
+updatedBall(1,2)=ball(1,2)+ball(2,2)*timeDelta;     % Update the y axis position of the ball 
+updatedBall(2,1)=frictionCoefficient*ball(2,1);     % Update the x axis velocity of the ball with the added friction
+updatedBall(2,2)=frictionCoefficient*ball(2,2);     % Update the x axis velocity of the ball with the added friction
 
 [updatedPlayers{1}(:,1),updatedPlayers{1}(:,2),updatedBall] = PlayersAndBallCollisions(updatedPlayers{1}(:,1),updatedPlayers{1}(:,2),updatedBall,particleRadius); % update the positions of the players and ball after collisions
 end

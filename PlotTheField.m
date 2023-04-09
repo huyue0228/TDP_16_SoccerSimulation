@@ -22,7 +22,7 @@ rectangle('Position',rectangles(5,:),'EdgeColor','w','LineWidth',0.8);
 rectangle('Position',rectangles(6,:),'EdgeColor','w','LineWidth',0.8);
 rectangle('Position',rectangles(7,:),'EdgeColor','w','LineWidth',0.8);
 line([0 0],[30 -30],'Color','w','LineWidth',0.8);
-rectangle('Position', [-7.5, -7.5, 15, 15], 'Curvature', [1, 1], 'EdgeColor', 'w', 'LineWidth', 0.2); %changed the code for mid circle
+rectangle('Position', [-7.5, -7.5, 15, 15], 'Curvature', [1, 1], 'EdgeColor', 'w', 'LineWidth', 0.2); 
 
 xlabel('');
 ylabel('');

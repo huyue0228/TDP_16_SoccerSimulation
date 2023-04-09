@@ -3,16 +3,16 @@ function [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOf
 % It takes the current positions of all the players and the ball, the index of the player to update, the time since the last update, and the player's original position. 
 % It returns the updated state of the player and the ball. The function uses a global variable to keep track of which team is currently in possession of the ball.
 
-% Declares a global variable that keeps track of the last team that had possession of the ball.
-global lastTeamBallPossession;
-global leadingTeam
-global fallBehindTeam
+% Declaring some global variables that hold the game statistics
+global lastTeamBallPossession; global totalPossession; global playerKicksBlue1; global playerKicksBlue2; global playerKicksBlue3; global playerKicksBlue4; global playerPossessionBlue1; global playerPossessionBlue2; global playerPossessionBlue3; global playerPossessionBlue4; global teamKicksBlue; global teamPossessionBlue; global playerKicksRed1; global playerKicksRed2; global playerKicksRed3; global playerKicksRed4; global playerPossessionRed1; global playerPossessionRed2; global playerPossessionRed3; global playerPossessionRed4; global teamKicksRed; global teamPossessionRed; global leadingTeam; global fallBehindTeam;
+
+
 % Defines various constants and coefficients that are used in the function.
 nPlayers=length(players{1});                                                    % The total number of players on the field.
 kickBallSigma = 1/200;                                                          % A constant which represents the standard deviation of the noise added to the kick direction.
 passBallSigma = 1/200;                                                          % A constant which represents the standard deviation of the noise added to the pass direction.
 passBallAcceleration = 0.5;                                                     % A constant which represents the acceleration of the ball after being passed.
-shootBallCoefficient = 3;                                                       % A constant which determines the strength of the kick towards the goal.
+shootBallCoefficient = 4;                                                       % A constant which determines the strength of the kick towards the goal.
 passBallCoefficient = 0.1;                                                      % A constant which determines the strength of the pass towards the target player.
 moveForwardCoefficient = 0.2;                                                   % A constant which determines how much a player moves forward when they have the ball.
 actionBallDistance = 4;                                                         % The distance within which a player can perform an action with the ball, such as passing or shooting.
@@ -25,9 +25,9 @@ defenderCoefficient=1;
 % If the player's team is 0 (Red Team), the goal is on the positive x-axis.
 % If the player's team is 1 (Blue Team), the goal is on the negative x-axis.
 if players{3}(indexOfPlayer)==0
-    goalPosition = [+60 randi([-13 13], 1)];
+    goalPosition = [+60 randi([-20 20], 1)];
 else
-    goalPosition = [-60 randi([-13 13], 1)];
+    goalPosition = [-60 randi([-20 20], 1)];
 end
 
 if goalsTeam0 > goalsTeam1
@@ -76,7 +76,33 @@ passThreshold = 0.3;
 if distanceToBall < actionBallDistance
     
     % Updates the last team that had possession of the ball to the player's team.
-    lastTeamBallPossession=players{3}(indexOfPlayer);
+    lastTeamBallPossession = players{3}(indexOfPlayer);
+
+    if lastTeamBallPossession == 0
+        totalPossession = totalPossession + 1;
+        teamPossessionRed = teamPossessionRed + 1;
+        if indexOfPlayer == 1
+            playerPossessionRed1 = playerPossessionRed1 + 1;
+        elseif indexOfPlayer == 2
+            playerPossessionRed2 = playerPossessionRed2 + 1;
+        elseif indexOfPlayer == 3
+            playerPossessionRed3 = playerPossessionRed3 + 1;
+        elseif indexOfPlayer == 4
+            playerPossessionRed4 = playerPossessionRed4 + 1;
+        end        
+    elseif lastTeamBallPossession == 1
+        totalPossession = totalPossession + 1;
+        teamPossessionBlue = teamPossessionBlue + 1;
+        if indexOfPlayer == 5
+            playerPossessionBlue1 = playerPossessionBlue1 + 1;
+        elseif indexOfPlayer == 6
+            playerPossessionBlue2 = playerPossessionBlue2 + 1;
+        elseif indexOfPlayer == 7
+            playerPossessionBlue3 = playerPossessionBlue3 + 1;
+        elseif indexOfPlayer == 8
+            playerPossessionBlue4 = playerPossessionBlue4 + 1;
+        end
+    end
 
     % Update whatTodo based on the distance ratio and thresholds
     if distanceRatio >= shootThreshold
@@ -113,9 +139,32 @@ if distanceToBall < actionBallDistance
         updatedBall(2,:) = dampingFactor * updatedBall(2,:);
         
         % Update the position of the ball based on the updated velocity and timeDelta
-        updatedBall(1,:) = updatedBall(1,:) + updatedBall(2,:) * timeDelta;
+        updatedBall(1,:) = updatedBall(1,:) * timeDelta;
         ball = updatedBall;
-        
+        if lastTeamBallPossession == 0
+            teamKicksRed = teamKicksRed + 1;
+            if indexOfPlayer == 1
+                playerKicksRed1 = playerKicksRed1 + 1;
+            elseif indexOfPlayer == 2
+                playerKicksRed2 = playerKicksRed2 + 1;
+            elseif indexOfPlayer == 3
+                playerKicksRed3 = playerKicksRed3 + 1;
+            elseif indexOfPlayer == 4
+                playerKicksRed4 = playerKicksRed4 + 1;
+            end        
+        elseif lastTeamBallPossession == 1 
+            teamKicksBlue = teamKicksBlue + 1;
+            if indexOfPlayer == 5
+                playerKicksBlue1 = playerKicksBlue1 + 1;
+            elseif indexOfPlayer == 6
+                playerKicksBlue2 = playerKicksBlue2 + 1;
+            elseif indexOfPlayer == 7
+                playerKicksBlue3 = playerKicksBlue3 + 1;
+            elseif indexOfPlayer == 8
+                playerKicksBlue4 = playerKicksBlue4 + 1;
+            end
+        end       
+
     elseif whatTodo == 0.5 % If the number given to the whatTodo action variable equals 0.5 (passing the ball to a teammate)
         
         Marked=true; % Initialize the flag Marked as true
@@ -203,7 +252,7 @@ if distanceToBall < actionBallDistance
             end
                 
             dampingFactor = 0.95; % Define a damping factor to account for deceleration (e.g., due to air resistance or friction)
-            maxPassLength = 20; % Define the maximum pass length
+            maxPassLength = 10; % Define the maximum pass length
             
             ballPosition = ball(1,:); % Extract the current ball position from the input ball variable
             updatedBall = ball; % Initialize the updatedBall variable with the current ball values
@@ -223,10 +272,11 @@ if distanceToBall < actionBallDistance
             updatedBall(2,:) = dampingFactor * updatedBall(2,:);
             
             % Update the position of the ball based on the updated velocity and timeDelta
-            updatedBall(1,:) = updatedBall(1,:) + updatedBall(2,:) * timeDelta;
+            updatedBall(1,:) = updatedBall(1,:) * timeDelta;
             
-            ball = updatedBall;
-        end 
+            ball = updatedBall;            
+        end
+
     else % If the player is not marked and can go forward with the ball
         targetPosition = [goalPosition(1)+sign(players{3}(indexOfPlayer)-1/2) players{1}(indexOfPlayer,2)];  % Set the target position as forward of the player
         
@@ -252,7 +302,7 @@ if distanceToBall < actionBallDistance
         updatedBall(2,:) = dampingFactor * updatedBall(2,:);
         
         % Update the position of the ball based on the updated velocity and timeDelta
-        updatedBall(1,:) = updatedBall(1,:) + updatedBall(2,:) * timeDelta;
+        updatedBall(1,:) = updatedBall(1,:) * timeDelta;
         ball = updatedBall;
     end
 end
