@@ -1,4 +1,4 @@
-function [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOfPlayer, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1)
+function [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOfPlayer, timeDelta, playerStickPosition, goalsTeam0, goalsTeam1)
 % This function updates the state of a player and the ball based on the actions/status of the players. 
 % It takes the current positions of all the players and the ball, the index of the player to update, the time since the last update, and the player's original position. 
 % It returns the updated state of the player and the ball. The function uses a global variable to keep track of which team is currently in possession of the ball.
@@ -42,8 +42,7 @@ else
    fallBehindTeam=NaN;
 end
 
-if players{3}(indexOfPlayer)==leadingTeam
-    
+if players{3}(indexOfPlayer)==leadingTeam    
     defenderCoefficient=1.5;
 elseif players{3}(indexOfPlayer)==fallBehindTeam
     strikerCoefficient=2;
@@ -308,6 +307,6 @@ if distanceToBall < actionBallDistance
 end
 
 updatedBall = ball; % Set updated ball to the current ball state
-updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerOriginalPosition,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
+updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerStickPosition,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
 
 end

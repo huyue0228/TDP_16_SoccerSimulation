@@ -4,7 +4,7 @@ function [updatedPlayers, updatedBall] = UpdatePlayersAndBall(players, ball, tim
 particleRadius = 2; % set the radius of the particle
 nAttributes = size(players{3},2); % get the number of attributes of each player
 nPlayers = size(players{1},1); % get the number of players
-updatedPlayers = {zeros(nPlayers,2), zeros(nPlayers,2),  zeros(nPlayers,nAttributes)}; % create a cell array to store the updated state of each player
+updatedPlayers = {zeros(nPlayers,2), zeros(nPlayers,2), zeros(nPlayers,nAttributes)}; % create a cell array to store the updated state of each player
 
 for indexOfPlayer = 1:nPlayers % iterate over each player
     [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOfPlayer, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1); % update the state of the current player

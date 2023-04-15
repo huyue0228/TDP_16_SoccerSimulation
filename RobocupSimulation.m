@@ -106,8 +106,7 @@ while MatchFlag ~= 1
         
         % Reset the ball and player attributes to their initial values for each new round
         ball = BallInitialPosition(startPositionBall, startVelBall, startAccBall);
-        [players, playerOriginalPosition] = PlayersInitialPositions(formation1, formation2, attributes, kickoffTeam, goalsTeam0, goalsTeam1);
-    
+        [players, playerOriginalPosition, playerStickPosition] = PlayersInitialPositions(formation1, formation2, attributes, kickoffTeam, goalsTeam0, goalsTeam1);
         pause(1); % Pause for 1 second before starting the round
         
         if HalfMatchFlagGame == 0 % Gameplay for the first half of the match
@@ -116,12 +115,11 @@ while MatchFlag ~= 1
         
                 % Update player and ball positions based on time elapsed
                 [players, ball] = SimulationSync(players, ball, timeSync, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1);
-                
+                playerOriginalPosition = playerStickPosition;
                 % Plot the playing field, players, and ball on the figure window
                 PlotTheField(field)
                 PlotThePlayers(players)
                 PlotTheBall(ball)
-                
                 % Check if the ball has crossed the field boundaries and adjust its position accordingly
                 [ball, players, goal] = FieldBorders(ball, players);
                 
@@ -150,26 +148,7 @@ while MatchFlag ~= 1
                         disp(MSG)
                     end
                     txt = {[sprintf(MSG)]};
-                    text(0,-33,txt,'HorizontalAlignment','center')
-                    % if goalsTeam0 > goalsTeam1 % If Red team is ahead
-                    %     MSG = commentators{randi(length(commentators))}+"The Red team"+string(goodSupportiveMsgs{randi(length(goodSupportiveMsgs))}); % Supportive commentary for the Red team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-31,txt,'HorizontalAlignment','center')
-                    %     MSG = commentators{randi(length(commentators))}+"The Blue team"+string(badCritiquingMsgs{randi(length(badCritiquingMsgs))}); % Critiqing commentary for the Blue team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-29,txt,'HorizontalAlignment','center')  
-                    % elseif goalsTeam1 > goalsTeam0 % If Blue team is ahead
-                    %     MSG = commentators{randi(length(commentators))}+"The Blue team"+string(goodSupportiveMsgs{randi(length(goodSupportiveMsgs))}); % Supportive commentary for the Blue team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-31,txt,'HorizontalAlignment','center')
-                    %     MSG = commentators{randi(length(commentators))}+"The Red team"+string(badCritiquingMsgs{randi(length(badCritiquingMsgs))}); % Critiqing commentary for the Red team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-29,txt,'HorizontalAlignment','center')  
-                    % end                 
+                    text(0,-33,txt,'HorizontalAlignment','center')                
                 end
                 if time1 >= IncrementPeriod
                     xtime = xtime + 30; % Increment x by 20            
@@ -234,7 +213,7 @@ while MatchFlag ~= 1
         
                 % Update player and ball positions based on time elapsed
                 [players, ball] = SimulationSync(players, ball, timeSync, timeDelta, playerOriginalPosition, goalsTeam0, goalsTeam1);
-                
+                playerOriginalPosition = playerStickPosition;
                 % Plot the playing field, players, and ball on the figure window
                 PlotTheField(field)
                 PlotThePlayers(players)
@@ -268,26 +247,7 @@ while MatchFlag ~= 1
                         disp(MSG)
                     end
                     txt = {[sprintf(MSG)]};
-                    text(0,-33,txt,'HorizontalAlignment','center')
-                    % if goalsTeam0 > goalsTeam1 % If Red team is ahead
-                    %     MSG = commentators{randi(length(commentators))}+"The Red team"+string(goodSupportiveMsgs{randi(length(goodSupportiveMsgs))}); % Supportive commentary for the Red team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-31,txt,'HorizontalAlignment','center')
-                    %     MSG = commentators{randi(length(commentators))}+"The Blue team"+string(badCritiquingMsgs{randi(length(badCritiquingMsgs))}); % Critiqing commentary for the Blue team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-29,txt,'HorizontalAlignment','center')  
-                    % elseif goalsTeam1 > goalsTeam0 % If Blue team is ahead
-                    %     MSG = commentators{randi(length(commentators))}+"The Blue team"+string(goodSupportiveMsgs{randi(length(goodSupportiveMsgs))}); % Supportive commentary for the Blue team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-31,txt,'HorizontalAlignment','center')
-                    %     MSG = commentators{randi(length(commentators))}+"The Red team"+string(badCritiquingMsgs{randi(length(badCritiquingMsgs))}); % Critiqing commentary for the Red team
-                    %     disp(MSG)
-                    %     txt = {[sprintf(MSG)]};
-                    %     text(0,-29,txt,'HorizontalAlignment','center')  
-                    % end                 
+                    text(0,-33,txt,'HorizontalAlignment','center')              
                 end
                 if time1 >= IncrementPeriod
                     xtime = xtime + 30; % Increment x by 20            
