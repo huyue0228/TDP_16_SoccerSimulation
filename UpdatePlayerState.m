@@ -19,7 +19,8 @@ actionBallDistance = 4;                                                         
 actionPlayerDistance = 15;                                                      % The distance within which a player can receive a pass.
 actionGoalDistance = 10;                                                        % The distance within which a player is close enough to the goal to consider shooting towards it.
 markedDistance = actionPlayerDistance * 0.7;                                    % The distance within which a player is considered marked by an opponent player. % Between 10-15 seems optimal. % 70% of actionPlayerDistance = 15 * 0.7 = 10.5. 
-strikerCoefficient=1;
+striker1Coefficient=1;
+striker2Coefficient=1;
 defenderCoefficient=1;
 % Sets the goalPosition based on the player's team.
 % If the player's team is 0 (Red Team), the goal is on the positive x-axis.
@@ -43,9 +44,11 @@ else
 end
 
 if players{3}(indexOfPlayer)==leadingTeam    
+    striker2Coefficient=0.5;
     defenderCoefficient=1.5;
 elseif players{3}(indexOfPlayer)==fallBehindTeam
-    strikerCoefficient=2;
+    striker1Coefficient=2;
+    striker2Coefficient=1.5;
 end
 
 % Gets the player's position, the ball's position, and the distances between the player and the ball, and the player and the goal.
@@ -307,6 +310,6 @@ if distanceToBall < actionBallDistance
 end
 
 updatedBall = ball; % Set updated ball to the current ball state
-updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerStickPosition,strikerCoefficient,defenderCoefficient); % Update player state by moving to new position
+updatedPlayer = PlayerMovement(players, indexOfPlayer, updatedBall, timeDelta, playerStickPosition,striker1Coefficient,striker2Coefficient,defenderCoefficient); % Update player state by moving to new position
 
 end
