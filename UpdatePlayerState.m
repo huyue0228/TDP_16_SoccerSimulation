@@ -44,10 +44,10 @@ else
 end
 
 if players{3}(indexOfPlayer)==leadingTeam    
-    striker2Coefficient=0.5;
+    striker2Coefficient=1.0;
     defenderCoefficient=1.5;
 elseif players{3}(indexOfPlayer)==fallBehindTeam
-    striker1Coefficient=2;
+    striker1Coefficient=2.0;
     striker2Coefficient=1.5;
 end
 
