@@ -87,9 +87,9 @@ elseif kickoffTeam==1
     players{1}(nPlayers-1,:)=[2 0];
 end
 
-%Fixing angles, velocities=0.3 in the begining
+%Fixing angles, velocities=0.5 in the begining
 players{2}(nPlayers/2+1:end,2)=pi;
-players{2}(:,1)=1;
+players{2}(:,1)=0.5;
 
 %attributes
 players{3}=attributes;
