@@ -14,7 +14,27 @@ function [ball, players, goal] = FieldBorders(ball, players)
     excitedGoal = {'Gooooooooal! ', 'Gooooal! ', 'Goooooal! ', 'Goooooooal! ', 'Gooooooal! ', 'Goooal! ', 'GOOOOOOOOOOOOAL! ', 'GOOOAL! ', 'GOOOOOAL! ', 'GOOOOAL! '};
     outOFBounds  = {'OUT!', 'Out of bounds!', 'The ball is out of the field!', 'The ball just left the field!', 'That is an out!', 'Aww! Out of bounds!'};
     commentators = {'Commentator 1: ', 'Commentator 2: ', 'Commentator 3: '};
-
+    if (ball(1,1) > 35 && abs(ball(1,2)) > 13)
+        targetedKicksRed = targetedKicksRed + 1;
+        crowd = randi([0, 1]);
+        if crowd ==  0
+            [x,fs] = audioread('Crowd1.wav');
+            sound(x, fs)
+        elseif crowd == 1
+            [x,fs] = audioread('Crowd2.wav');
+            sound(x, fs)
+        end
+    elseif (ball(1,1) < -35 && abs(ball(1,2)) > 13)
+        targetedKicksBlue = targetedKicksBlue + 1;
+        crowd = randi([0, 1]);
+        if crowd ==  0
+            [x,fs] = audioread('Crowd1.wav');
+            sound(x, fs)
+        elseif crowd == 1
+            [x,fs] = audioread('Crowd2.wav');
+            sound(x, fs)
+        end
+    end
     if (abs(ball(1,1))  > 45 || abs(ball(1,2))  > 30)
         if (abs(ball(1,2))  < 13)
                         
@@ -25,11 +45,41 @@ function [ball, players, goal] = FieldBorders(ball, players)
                     txt = {[sprintf(MSG)]};
                     text(0,-36,txt,'HorizontalAlignment','center')
                     targetedKicksRed = targetedKicksRed + 1;
+                    whistle = randi([0, 2]);
+                    if whistle ==  0
+                        [x,fs] = audioread('Whistle1.wav');
+                        sound(x, fs)
+                    elseif whistle == 1
+                        [x,fs] = audioread('Whistle2.wav');
+                        sound(x, fs)
+                    elseif whistle == 2
+                        [x,fs] = audioread('Whistle3.wav');
+                        sound(x, fs)
+                    end
+                    [x,fs] = audioread('GoalCommentary.wav');
+                    sound(x, fs)
+                    [x,fs] = audioread('CrowdGoal.wav');
+                    sound(x, fs)
                 else
                     MSG = commentators{randi(length(commentators))}+"Oh man, "+string(ownGoalMsgs{randi(length(ownGoalMsgs))})+" by Blue team!"; % Blue Team accidentally scored a goal on themselves
                     disp(MSG)
                     txt = {[sprintf(MSG)]};
                     text(0,-36,txt,'HorizontalAlignment','center')
+                    whistle = randi([0, 2]);
+                    if whistle ==  0
+                        [x,fs] = audioread('Whistle1.wav');
+                        sound(x, fs)
+                    elseif whistle == 1
+                        [x,fs] = audioread('Whistle2.wav');
+                        sound(x, fs)
+                    elseif whistle == 2
+                        [x,fs] = audioread('Whistle3.wav');
+                        sound(x, fs)
+                    end
+                    [x,fs] = audioread('GoalCommentary.wav');
+                    sound(x, fs)
+                    [x,fs] = audioread('CrowdGoal.wav');
+                    sound(x, fs)
                 end
             else % Red Team's goal area
                 if (lastTeamBallPossession == 1)
@@ -38,11 +88,41 @@ function [ball, players, goal] = FieldBorders(ball, players)
                     txt = {[sprintf(MSG)]};                   
                     text(0,-36,txt,'HorizontalAlignment','center')
                     targetedKicksBlue = targetedKicksBlue + 1;
+                    whistle = randi([0, 2]);
+                    if whistle ==  0
+                        [x,fs] = audioread('Whistle1.wav');
+                        sound(x, fs)
+                    elseif whistle == 1
+                        [x,fs] = audioread('Whistle2.wav');
+                        sound(x, fs)
+                    elseif whistle == 2
+                        [x,fs] = audioread('Whistle3.wav');
+                        sound(x, fs)
+                    end
+                    [x,fs] = audioread('GoalCommentary.wav');
+                    sound(x, fs)
+                    [x,fs] = audioread('CrowdGoal.wav');
+                    sound(x, fs)
                 else
                     MSG = commentators{randi(length(commentators))}+"Oh man, "+string(ownGoalMsgs{randi(length(ownGoalMsgs))})+" by Red team!"; % Red Team accidentally scored a goal on themselves
                     disp(MSG)
                     txt = {[sprintf(MSG)]};                    
                     text(0,-36,txt,'HorizontalAlignment','center')
+                    whistle = randi([0, 2]);
+                    if whistle ==  0
+                        [x,fs] = audioread('Whistle1.wav');
+                        sound(x, fs)
+                    elseif whistle == 1
+                        [x,fs] = audioread('Whistle2.wav');
+                        sound(x, fs)
+                    elseif whistle == 2
+                        [x,fs] = audioread('Whistle3.wav');
+                        sound(x, fs)
+                    end
+                    [x,fs] = audioread('GoalCommentary.wav');
+                    sound(x, fs)
+                    [x,fs] = audioread('CrowdGoal.wav');
+                    sound(x, fs)
                 end
             end
             
@@ -55,6 +135,25 @@ function [ball, players, goal] = FieldBorders(ball, players)
                 disp(MSG)
                 txt = {[sprintf(MSG)]};            
                 text(0,-36,txt,'HorizontalAlignment','center')
+                whistle = randi([0, 2]);
+                if whistle ==  0
+                    [x,fs] = audioread('Whistle1.wav');
+                    sound(x, fs)
+                elseif whistle == 1
+                    [x,fs] = audioread('Whistle2.wav');
+                    sound(x, fs)
+                elseif whistle == 2
+                    [x,fs] = audioread('Whistle3.wav');
+                    sound(x, fs)
+                end
+                crowd = randi([0, 1]);
+                if crowd ==  0
+                    [x,fs] = audioread('Crowd1.wav');
+                    sound(x, fs)
+                elseif crowd == 1
+                    [x,fs] = audioread('Crowd2.wav');
+                    sound(x, fs)
+                end
                 targetedKicksRed = targetedKicksRed + 1;
                 targetedKicksBlue = targetedKicksBlue + 1;
                 otherTeam = -sign(lastTeamBallPossession - 1);
@@ -105,6 +204,17 @@ function [ball, players, goal] = FieldBorders(ball, players)
                 disp(MSG)
                 txt = {[sprintf(MSG)]};            
                 text(0,-36,txt,'HorizontalAlignment','center')
+                whistle = randi([0, 2]);
+                if whistle ==  0
+                    [x,fs] = audioread('Whistle1.wav');
+                    sound(x, fs)
+                elseif whistle == 1
+                    [x,fs] = audioread('Whistle2.wav');
+                    sound(x, fs)
+                elseif whistle == 2
+                    [x,fs] = audioread('Whistle3.wav');
+                    sound(x, fs)
+                end
                 otherTeam = -sign(lastTeamBallPossession - 1);
                 teamIndex = find(players{3}(:,1) == otherTeam);
                 distanceToBall = vecnorm(players{1}(teamIndex,:) - ball(1,:), 2, 2);

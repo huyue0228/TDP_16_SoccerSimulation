@@ -20,7 +20,7 @@ distanceToOriginalPosition = norm(playerStickPosition(indexOfPlayer,:)-playerPos
 
 % GoalKeeper
 if indexOfPlayer==nPlayers/2 || indexOfPlayer==nPlayers 
-    if (distanceToBall < actionPlayerDistance && distanceToOriginalPosition < actionPlayerDistance)...
+    if (distanceToBall < 1.0*actionPlayerDistance && 1.0*distanceToOriginalPosition < actionPlayerDistance)...
             || indexOfPlayer==indexOfPlayerThatWillGoForTheBall
         playerDirection = atan2(ballPosition(2) - playerPosition(2),ballPosition(1) - playerPosition(1));
     elseif distanceToOriginalPosition <= error
@@ -31,7 +31,7 @@ if indexOfPlayer==nPlayers/2 || indexOfPlayer==nPlayers
     end
 % striker1
 elseif indexOfPlayer==1 || indexOfPlayer==5 
-    if (distanceToBall < 1.5*striker1Coefficient*actionPlayerDistance && distanceToOriginalPosition < 2.0*striker1Coefficient*actionPlayerDistance)...
+    if (distanceToBall < 2.0*striker1Coefficient*actionPlayerDistance && distanceToOriginalPosition < 2.0*striker1Coefficient*actionPlayerDistance)...
             || indexOfPlayer==indexOfPlayerThatWillGoForTheBall
         playerDirection = atan2(ballPosition(2) - playerPosition(2),ballPosition(1) - playerPosition(1));
     elseif distanceToOriginalPosition <= error
@@ -42,7 +42,7 @@ elseif indexOfPlayer==1 || indexOfPlayer==5
     end
 % striker2
 elseif indexOfPlayer==2 || indexOfPlayer==6 
-    if (distanceToBall < 1.5*striker2Coefficient*actionPlayerDistance && distanceToOriginalPosition < 2.0*striker2Coefficient*actionPlayerDistance)...
+    if (distanceToBall < 2.0*striker2Coefficient*actionPlayerDistance && distanceToOriginalPosition < 2.0*striker2Coefficient*actionPlayerDistance)...
             || indexOfPlayer==indexOfPlayerThatWillGoForTheBall
         playerDirection = atan2(ballPosition(2) - playerPosition(2),ballPosition(1) - playerPosition(1));
     elseif distanceToOriginalPosition <= error
@@ -66,7 +66,7 @@ end
 
 player{1}(indexOfPlayer,1) = playerPosition(1) + a*cos(playerDirection) * playerVelocity(1) * timeDelta;
 player{1}(indexOfPlayer,2) = playerPosition(2) + a*sin(playerDirection) * playerVelocity(1) * timeDelta;
-player{2}(indexOfPlayer,1) = 0.5;
+player{2}(indexOfPlayer,1) = 0.65;
 player{2}(indexOfPlayer,2) = playerDirection;
 player{3} = players{3}(indexOfPlayer,:);
 

@@ -4,7 +4,7 @@ function [updatedPlayer, updatedBall] = UpdatePlayerState(players, ball, indexOf
 % It returns the updated state of the player and the ball. The function uses a global variable to keep track of which team is currently in possession of the ball.
 
 % Declaring some global variables that hold the game statistics
-global lastTeamBallPossession; global totalPossession; global playerKicksBlue1; global playerKicksBlue2; global playerKicksBlue3; global playerKicksBlue4; global playerPossessionBlue1; global playerPossessionBlue2; global playerPossessionBlue3; global playerPossessionBlue4; global teamKicksBlue; global teamPossessionBlue; global playerKicksRed1; global playerKicksRed2; global playerKicksRed3; global playerKicksRed4; global playerPossessionRed1; global playerPossessionRed2; global playerPossessionRed3; global playerPossessionRed4; global teamKicksRed; global teamPossessionRed; global leadingTeam; global fallBehindTeam;
+global lastTeamBallPossession; global totalPossession; global playerKicksBlue1; global playerKicksBlue2; global playerKicksBlue3; global playerKicksBlue4; global playerPossessionBlue1; global playerPossessionBlue2; global playerPossessionBlue3; global playerPossessionBlue4; global teamKicksBlue; global teamPossessionBlue; global playerKicksRed1; global playerKicksRed2; global playerKicksRed3; global playerKicksRed4; global playerPossessionRed1; global playerPossessionRed2; global playerPossessionRed3; global playerPossessionRed4; global teamKicksRed; global teamPossessionRed; global leadingTeam; global fallBehindTeam; global KickCounterForAudioCues;
 
 
 % Defines various constants and coefficients that are used in the function.
@@ -18,37 +18,52 @@ moveForwardCoefficient = 0.2;                                                   
 actionBallDistance = 4;                                                         % The distance within which a player can perform an action with the ball, such as passing or shooting.
 actionPlayerDistance = 15;                                                      % The distance within which a player can receive a pass.
 actionGoalDistance = 10;                                                        % The distance within which a player is close enough to the goal to consider shooting towards it.
-markedDistance = actionPlayerDistance * 0.7;                                    % The distance within which a player is considered marked by an opponent player. % Between 10-15 seems optimal. % 70% of actionPlayerDistance = 15 * 0.7 = 10.5. 
-striker1Coefficient=1;
-striker2Coefficient=1;
-defenderCoefficient=1;
+AvailabilityDistance = actionPlayerDistance * 0.7;                              % The distance within which a player is considered far from an opponent player and available to recieve a pass. % 70% of actionPlayerDistance = 15 * 0.7 = 10.5. 
+striker1Coefficient = 1;
+striker2Coefficient = 1;
+defenderCoefficient = 1;
+
 % Sets the goalPosition based on the player's team.
 % If the player's team is 0 (Red Team), the goal is on the positive x-axis.
 % If the player's team is 1 (Blue Team), the goal is on the negative x-axis.
-if players{3}(indexOfPlayer)==0
-    goalPosition = [+60 randi([-20 20], 1)];
+if ball(1,1) >= 35 && (ball(1,2) > 25 || ball(1,2) < -25)
+    if players{3}(indexOfPlayer)==0
+        goalPosition = [+38 randi([-20 20], 1)];
+    else
+        goalPosition = [-43 randi([-20 20], 1)];
+    end
+elseif ball(1,1) <= -35 && (ball(1,2) > 25 || ball(1,2) < -25)
+    if players{3}(indexOfPlayer)==0
+        goalPosition = [+43 randi([-20 20], 1)];
+    else
+        goalPosition = [-38 randi([-20 20], 1)];
+    end
 else
-    goalPosition = [-60 randi([-20 20], 1)];
-end
+    if players{3}(indexOfPlayer)==0
+        goalPosition = [+43 randi([-20 20], 1)];
+    else
+        goalPosition = [-43 randi([-20 20], 1)];
+    end
+end 
+
 
 if goalsTeam0 > goalsTeam1
-%      updatedPlayer = Attack(players, indexOfPlayer, updatedBall, timeDelta);
-   leadingTeam=0;
-   fallBehindTeam=1;
+   leadingTeam = 0;
+   fallBehindTeam = 1;
 elseif goalsTeam0 < goalsTeam1
-   leadingTeam=1;
-   fallBehindTeam=0;
+   leadingTeam = 1;
+   fallBehindTeam = 0;
 else
-   leadingTeam=NaN;
-   fallBehindTeam=NaN;
+   leadingTeam = NaN;
+   fallBehindTeam = NaN;
 end
 
-if players{3}(indexOfPlayer)==leadingTeam    
-    striker2Coefficient=1.0;
-    defenderCoefficient=1.5;
-elseif players{3}(indexOfPlayer)==fallBehindTeam
-    striker1Coefficient=2.0;
-    striker2Coefficient=1.5;
+if players{3}(indexOfPlayer) == leadingTeam    
+    striker2Coefficient = 0.5;
+    defenderCoefficient = 1.5;
+elseif players{3}(indexOfPlayer) == fallBehindTeam
+    striker1Coefficient = 2;
+    striker2Coefficient = 1.5;
 end
 
 % Gets the player's position, the ball's position, and the distances between the player and the ball, and the player and the goal.
@@ -143,6 +158,38 @@ if distanceToBall < actionBallDistance
         % Update the position of the ball based on the updated velocity and timeDelta
         updatedBall(1,:) = updatedBall(1,:) * timeDelta;
         ball = updatedBall;
+
+        KickCounterForAudioCues = KickCounterForAudioCues + 1;
+
+        if KickCounterForAudioCues == 60
+            KickCounterForAudioCues = 0;
+            FansChant = randi([0,2]);
+            if FansChant == 0
+                [x,fs] = audioread('FansChanting1.wav');
+                sound(x, fs)
+            elseif FansChant == 1
+                [x,fs] = audioread('FansChanting2.wav');
+                sound(x, fs)
+            elseif FansChant == 2
+                [x,fs] = audioread('FansChanting3.wav');
+                sound(x, fs)
+            end
+        end
+
+        Kick = randi([0,4]);
+        if Kick == 0
+            [x,fs] = audioread('Kick2.wav');
+            sound(x, fs)
+        elseif Kick == 1
+            [x,fs] = audioread('Kick3.wav');
+            sound(x, fs)
+        elseif Kick == 2
+            [x,fs] = audioread('Kick4.wav');
+            sound(x, fs)
+        elseif Kick == 3
+            [x,fs] = audioread('Kick5.wav');
+            sound(x, fs)
+        end
         if lastTeamBallPossession == 0
             teamKicksRed = teamKicksRed + 1;
             if indexOfPlayer == 1
@@ -169,18 +216,18 @@ if distanceToBall < actionBallDistance
 
     elseif whatTodo == 0.5 % If the number given to the whatTodo action variable equals 0.5 (passing the ball to a teammate)
         
-        Marked=true; % Initialize the flag Marked as true
+        NotAvailable=true; % Initialize the flag NotAvailable as true
         d = pdist(players{1}); % Compute the pairwise distances between the players
         z = squareform(d); % Convert the distance vector to a square, symmetric distance matrix
         z(indexOfPlayer,indexOfPlayer)=inf; % Set the distance of the target player to itself to infinity
         
-        % Check if the minimum distance to a player from the opposite team is greater than the marked distance
-        if min(z(indexOfPlayer,(1-players{3}(indexOfPlayer))*nPlayers/2+(1:nPlayers/2))) > markedDistance
-            Marked=false; % If condition is true, set Marked to false
+        % Check if the minimum distance to a player from the opposite team is greater than the Availability distance
+        if min(z(indexOfPlayer,(1-players{3}(indexOfPlayer))*nPlayers/2+(1:nPlayers/2))) > AvailabilityDistance
+            NotAvailable=false; % If condition is true, set NotAvailable to false
         end
 
-        if Marked || mod(indexOfPlayer,nPlayers/2)==0 % If the player is marked or is the goalie
-            % Pass the ball to a teammate if the player is marked by an opponent player within the marked distance, or if the player is the goalkeeper
+        if NotAvailable || mod(indexOfPlayer,nPlayers/2)==0 % If the player is NotAvailable or that player is the goalie
+            % Pass the ball to a teammate if the player is not far from an opponent player within the availability distance, or if the player is the goalkeeper
             minPassLength = 5; % Minimum length for a pass to be considered
             playerTeam = players{3}(indexOfPlayer); % The team number of the player with the ball
             
@@ -209,13 +256,13 @@ if distanceToBall < actionBallDistance
             % Initialize the index of the target player
             indexOfTarget = 1;
 
-            % Loop until an unmarked player is found or there are no players left to pass to
+            % Loop until an availabile player is found or there are no players left to pass to
             while true
                 % Find the index of the closest opponent to the target player
                 [~, closestOpponentIndex] = min(distanceToOpponents);
                 
-                % Check if the closest opponent is within the marked distance
-                if distanceToOpponents(closestOpponentIndex) < markedDistance
+                % Check if the closest opponent is within the availability distance
+                if distanceToOpponents(closestOpponentIndex) < AvailabilityDistance
                     % If the opponent is too close, exclude the target player from being a potential target and continue the loop
                     distanceToTeamMates(indexOfTarget) = NaN;
                 else
@@ -224,7 +271,7 @@ if distanceToBall < actionBallDistance
                     break;
                 end
                 
-                % If no unmarked players are left, return the current target position
+                % If no available players are left, return the current target position
                 if sum(isnan(distanceToTeamMates)) == nPlayers/2
                     break;
                 end
@@ -232,23 +279,23 @@ if distanceToBall < actionBallDistance
                 % Find the index of the next closest target player
                 [~, indexOfTarget] = min(distanceToTeamMates);
                 
-                % Check if the target player is marked               
-                Marked=true; % Initialize the flag Marked as true
+                % Check if the target player is available               
+                NotAvailable=true; % Initialize the flag NotAvailable as true
                 d = pdist(players{1}); % Compute the pairwise distances between the players
                 z = squareform(d); % Convert the distance vector to a square, symmetric distance matrix
                 z(indexOfTarget,indexOfTarget)=inf; % Set the distance of the target player to itself to infinity
                 
-                % Check if the minimum distance to a player from the opposite team is greater than the marked distance
-                if min(z(indexOfTarget,(1-playerTeam)*nPlayers/2+(1:nPlayers/2))) > markedDistance
-                    Marked=false; % If condition is true, set Marked to false
+                % Check if the minimum distance to a player from the opposite team is greater than the availability distance
+                if min(z(indexOfTarget,(1-playerTeam)*nPlayers/2+(1:nPlayers/2))) > AvailabilityDistance
+                    NotAvailable=false; % If condition is true, set NotAvailable to false
                 end
         
-                % If the target player is unmarked, set the target position to their position and return it
-                if ~Marked
+                % If the target player is available, set the target position to their position and return it
+                if ~NotAvailable
                     targetPosition = players{1}(indexOfTarget + playerTeam*nPlayers/2, :);
                     break;
                 else
-                    % Otherwise, exclude the marked player from being a potential target and continue the loop
+                    % Otherwise, exclude the non-available player from being a potential target and continue the loop
                     distanceToTeamMates(indexOfTarget) = NaN;
                 end
             end
@@ -276,10 +323,42 @@ if distanceToBall < actionBallDistance
             % Update the position of the ball based on the updated velocity and timeDelta
             updatedBall(1,:) = updatedBall(1,:) * timeDelta;
             
-            ball = updatedBall;            
+            ball = updatedBall;
+            
+            KickCounterForAudioCues = KickCounterForAudioCues + 1;
+
+            if KickCounterForAudioCues == 60
+                KickCounterForAudioCues = 0;
+                FansChant = randi([0,2]);
+                if FansChant == 0
+                    [x,fs] = audioread('FansChanting1.wav');
+                    sound(x, fs)
+                elseif FansChant == 1
+                    [x,fs] = audioread('FansChanting2.wav');
+                    sound(x, fs)
+                elseif FansChant == 2
+                    [x,fs] = audioread('FansChanting3.wav');
+                    sound(x, fs)
+                end
+            end
+
+            Pass = randi([0,4]);
+            if Pass == 0
+                [x,fs] = audioread('Kick2.wav');
+                sound(x, fs)
+            elseif Pass == 1
+                [x,fs] = audioread('Kick3.wav');
+                sound(x, fs)
+            elseif Pass == 2
+                [x,fs] = audioread('Kick4.wav');
+                sound(x, fs)
+            elseif Pass == 3
+                [x,fs] = audioread('Kick5.wav');
+                sound(x, fs)
+            end
         end
 
-    else % If the player is not marked and can go forward with the ball
+    else % If the player is free (available) and can go forward with the ball
         targetPosition = [goalPosition(1)+sign(players{3}(indexOfPlayer)-1/2) players{1}(indexOfPlayer,2)];  % Set the target position as forward of the player
         
         updatedBall = ball;
@@ -306,6 +385,37 @@ if distanceToBall < actionBallDistance
         % Update the position of the ball based on the updated velocity and timeDelta
         updatedBall(1,:) = updatedBall(1,:) * timeDelta;
         ball = updatedBall;
+        KickCounterForAudioCues = KickCounterForAudioCues + 1;
+
+        if KickCounterForAudioCues == 60
+            KickCounterForAudioCues = 0;
+            FansChant = randi([0,2]);
+            if FansChant == 0
+                [x,fs] = audioread('FansChanting1.wav');
+                sound(x, fs)
+            elseif FansChant == 1
+                [x,fs] = audioread('FansChanting2.wav');
+                sound(x, fs)
+            elseif FansChant == 2
+                [x,fs] = audioread('FansChanting3.wav');
+                sound(x, fs)
+            end
+        end
+        
+        Kick = randi([0,4]);
+        if Kick == 0
+            [x,fs] = audioread('Kick2.wav');
+            sound(x, fs)
+        elseif Kick == 1
+            [x,fs] = audioread('Kick3.wav');
+            sound(x, fs)
+        elseif Kick == 2
+            [x,fs] = audioread('Kick4.wav');
+            sound(x, fs)
+        elseif Kick == 3
+            [x,fs] = audioread('Kick5.wav');
+            sound(x, fs)
+        end
     end
 end
 
